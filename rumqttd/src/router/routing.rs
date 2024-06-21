@@ -1733,7 +1733,7 @@ fn validate_subscription(
         }
     }
 
-    if filter.path.starts_with('$') && !filter.path.starts_with("$share") {
+    if filter.path.starts_with('$') && !filter.path.starts_with("$share") && !filter.path.starts_with("$SYS") {
         return Err(RouterError::InvalidFilterPrefix(filter.path.to_owned()));
     }
 

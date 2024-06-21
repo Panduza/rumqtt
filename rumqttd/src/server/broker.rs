@@ -509,7 +509,7 @@ async fn remote<P: Protocol>(
     let connect_packet = match mqtt_connect(config, &mut network).await {
         Ok(p) => p,
         Err(e) => {
-            error!(error=?e, "Error while handling MQTT connect packet");
+            error!(error=?e, "{}", format!("Error while handling MQTT connect packet : {}", e) );
             return;
         }
     };

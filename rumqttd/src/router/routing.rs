@@ -1372,7 +1372,7 @@ fn ack_device_data(ackslog: &mut AckLog, outgoing: &mut Outgoing) -> bool {
 
     let acks = ackslog.readv();
     if acks.is_empty() {
-        debug!("No acks pending");
+        trace!("No acks pending");
         return false;
     }
 
@@ -1389,7 +1389,7 @@ fn ack_device_data(ackslog: &mut AckLog, outgoing: &mut Outgoing) -> bool {
         count += 1;
     }
 
-    debug!(acks_count = count, "Acks sent to device");
+    trace!(acks_count = count, "Acks sent to device");
     outgoing.handle.try_send(()).ok();
     true
 }

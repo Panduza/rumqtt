@@ -3,6 +3,7 @@ use tokio::{
     io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt},
     time::timeout,
 };
+use tracing::debug;
 
 use std::{
     collections::VecDeque,
@@ -103,7 +104,24 @@ impl<P: Protocol> Network<P> {
 
             // read more packets until a frame can be created. This function
             // blocks until a frame can be created. Use this in a select! branch
-            timeout(self.keepalive, self.read_bytes(required)).await??;
+            let rt1 = timeout(self.keepalive, self.read_bytes(required)).await;
+            match rt1 {
+                Ok(rt2) => {
+                    match rt2 {
+                        Ok(_) => {
+
+                        }
+                        Err(e) => {
+                            debug!("network read / direct error {:?}", e);
+                            return Err(Error::Io(e));
+                        }
+                    }
+                },
+                Err(e) => {
+                    debug!("network read / elasped {:?}", e);
+                }
+            }
+
         }
     }
 

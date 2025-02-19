@@ -188,7 +188,7 @@ impl Replica {
         //     select! {
         //         o = self.network.readb() => {
         //             let packets = o?.freeze();
-        //             debug!("::{} {:10} {:20} size = {} bytes", self.id, "read", "remote", packets.len());
+        //             trace!("::{} {:10} {:20} size = {} bytes", self.id, "read", "remote", packets.len());
         //             // link_tx.async_send_replica_data(packets).await?;
         //         }
         //         // Receive from router when previous when state isn't in collision
@@ -205,7 +205,7 @@ impl Replica {
         //                 v => unreachable!("Expecting only data or device acks. Received = {:?}", v)
         //             };
 
-        //             debug!("::{} {:10} {:20} size = {} bytes", self.id, "write", "remote", write.len());
+        //             trace!("::{} {:10} {:20} size = {} bytes", self.id, "write", "remote", write.len());
         //             self.network.write_all(&write).await?;
         //         }
         //     }

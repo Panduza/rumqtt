@@ -714,7 +714,7 @@ impl Router {
                         let span = tracing::info_span!("unsubscribe", topic = filter, pkid);
                         let _guard = span.enter();
 
-                        debug!("Removing subscription on filter {}", filter);
+                        trace!("Removing subscription on filter {}", filter);
                         if let Some(connection_ids) = self.subscription_map.get_mut(filter) {
                             let removed = connection_ids.remove(&id);
                             if !removed {
@@ -1255,7 +1255,7 @@ fn append_to_commitlog(
         let datalog = datalog.native.get_mut(filter_idx).unwrap();
         let publish_data = (publish.clone(), properties.clone());
         let (offset, filter) = datalog.append(publish_data.into(), notifications);
-        debug!(
+        trace!(
             pkid,
             "Appended to commitlog: {}[{}, {})", filter, offset.0, offset.1,
         );
@@ -1321,7 +1321,7 @@ fn append_will_message(
         let datalog = datalog.native.get_mut(filter_idx).unwrap();
         let publish_data = (publish.clone(), properties.clone());
         let (offset, filter) = datalog.append(publish_data.into(), notifications);
-        debug!(
+        trace!(
             pkid,
             "Appended to commitlog: {}[{}, {})", filter, offset.0, offset.1,
         );
@@ -1592,7 +1592,7 @@ fn forward_device_data(
 
     let (len, inflight) = outgoing.push_forwards(forwards, qos, filter_idx);
 
-    debug!(
+    trace!(
         inflight_count = inflight,
         forward_count = len,
         "Forwarding publishes, cursor = {}[{}, {}) forward count = {}",
@@ -1603,7 +1603,7 @@ fn forward_device_data(
     );
 
     if len >= MAX_CHANNEL_CAPACITY - 1 {
-        debug!("Outgoing channel reached its capacity");
+        trace!("Outgoing channel reached its capacity");
         outgoing.push_notification(Notification::Unschedule);
         outgoing.handle.try_send(()).ok();
         return ConsumeStatus::BufferFull;

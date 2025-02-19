@@ -233,7 +233,7 @@ where
             }
 
             if len == 0 {
-                // debug!("start: {:?}, end: ({}, {})", orig_cursor, cursor.0, cursor.1 - 1);
+                // trace!("start: {:?}, end: ({}, {})", orig_cursor, cursor.0, cursor.1 - 1);
                 return Ok(Position::Next { start, end: cursor });
             }
 
@@ -251,14 +251,14 @@ where
 
         match curr_segment.readv(cursor, len, out)? {
             SegmentPosition::Next(v) => {
-                // debug!("start: {:?}, end: ({}, {})", orig_cursor, cursor.0, cursor.1 + v - 1);
+                // trace!("start: {:?}, end: ({}, {})", orig_cursor, cursor.0, cursor.1 + v - 1);
                 Ok(Position::Next {
                     start,
                     end: (cursor.0, v),
                 })
             }
             SegmentPosition::Done(absolute_offset) => {
-                // debug!("start: {:?}, end: ({}, {}) done", orig_cursor, cursor.0, absolute_offset);
+                // trace!("start: {:?}, end: ({}, {}) done", orig_cursor, cursor.0, absolute_offset);
                 Ok(Position::Done {
                     start,
                     end: (cursor.0, absolute_offset),

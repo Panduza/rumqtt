@@ -4,7 +4,7 @@ use tokio::{
     time::timeout,
 };
 use tracing::debug;
-
+use tracing::trace;
 use std::{
     collections::VecDeque,
     io::{self, ErrorKind},
@@ -112,13 +112,13 @@ impl<P: Protocol> Network<P> {
 
                         }
                         Err(e) => {
-                            debug!("network read / direct error {:?}", e);
+                            trace!("network read / direct error {:?}", e);
                             return Err(Error::Io(e));
                         }
                     }
                 },
                 Err(e) => {
-                    debug!("network read / elasped {:?}", e);
+                    trace!("network read / elasped {:?}", e);
                 }
             }
 

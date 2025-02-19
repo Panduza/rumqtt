@@ -85,7 +85,7 @@ where
         }
 
         let ping_req = Packet::PingReq(PingReq);
-        debug!("Received suback from {}", &config.addr);
+        trace!("Received suback from {}", &config.addr);
 
         let mut ping_time = Instant::now();
         let mut timeout = sleep_until(ping_time + Duration::from_secs(config.ping_delay));
